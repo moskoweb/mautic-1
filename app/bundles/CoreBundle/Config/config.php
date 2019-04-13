@@ -325,6 +325,10 @@ return [
                 'class' => 'Mautic\CoreBundle\Form\Type\SlotVideoType',
                 'alias' => 'slot_video',
             ],
+            'mautic.form.type.slot.signature' => [
+                'class' => 'Mautic\CoreBundle\Form\Type\SlotSignatureType',
+                'alias' => 'slot_signature',
+            ],
             'mautic.form.type.slot.imagecard' => [
                 'class' => 'Mautic\CoreBundle\Form\Type\SlotImageCardType',
                 'alias' => 'slot_imagecard',
