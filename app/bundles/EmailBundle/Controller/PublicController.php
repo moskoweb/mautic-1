@@ -30,6 +30,7 @@ use Mautic\PageBundle\EventListener\BuilderSubscriber;
 use Mautic\PageBundle\PageEvents;
 use Mautic\QueueBundle\Queue\QueueName;
 use Symfony\Component\HttpFoundation\Response;
+use voku\CssToInlineStyles\CssToInlineStyles;
 
 class PublicController extends CommonFormController
 {
@@ -472,6 +473,14 @@ class PublicController extends CommonFormController
 
         $BCcontent = $emailEntity->getContent();
         $content   = $emailEntity->getCustomHtml();
+
+        // Inliner CSS in HTML
+        $content = new CssToInlineStyles($content);
+        $content->setUseInlineStylesBlock(true);
+        $content->setExcludeConditionalInlineStylesBlock(false);
+        $content->setCleanup(true);
+        $content = $content->convert();
+
         if (empty($content) && !empty($BCcontent)) {
             $template = $emailEntity->getTemplate();
             $slots    = $this->factory->getTheme($template)->getSlots('email');

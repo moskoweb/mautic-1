@@ -24,6 +24,7 @@ use Mautic\EmailBundle\Swiftmailer\Message\MauticMessage;
 use Mautic\EmailBundle\Swiftmailer\Transport\TokenTransportInterface;
 use Mautic\LeadBundle\Entity\Lead;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use voku\CssToInlineStyles\CssToInlineStyles;
 
 /**
  * Class MailHelper.
@@ -974,6 +975,13 @@ class MailHelper
                 $content .= $trackingImg;
             }
         }
+
+        // Inliner CSS in HTML
+        $content = new CssToInlineStyles($content);
+        $content->setUseInlineStylesBlock(true);
+        $content->setExcludeConditionalInlineStylesBlock(false);
+        $content->setCleanup(true);
+        $content = $content->convert();
 
         // Update the identifier for the content
         $this->contentHash = md5($content.$this->plainText);
